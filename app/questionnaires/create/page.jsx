@@ -19,6 +19,10 @@ function QuestionnaireForm() {
       weight: 0,
     },
   ]);
+  const apiUrl = 'http://localhost:3000';
+  const appUrl = 'http://localhost:3001';
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   function addQuestion() {
     setQuestions([
@@ -40,8 +44,32 @@ function QuestionnaireForm() {
     console.log('Removed question. Left with: ', remainingQuestions);
   }
 
-  function createQuestionnaire() {
-    console.log('Questionnaire created');
+  async function createQuestionnaire() {
+    try {
+      const response = await fetch(`${apiUrl}/api/questionnaires`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          creator: questionnaire.creator,
+          title: questionnaire.title,
+          questions: questions.map((question) => {
+            return {
+              question: question.question,
+              choices: question.choices,
+              answer: question.answer,
+              weight: question.weight
+            }
+          })
+        }),
+      }).then((res) => res.json());
+      setSuccessMessage(`${appUrl}/questionnaires/${response.questionnaire._id}`);
+      console.log('Questionnaire created: ', response);
+    } catch (error) {
+      setErrorMessage('Questionnaire creation error: ' + error);
+      console.log('Questionnaire creation error: ', error);
+    }
   }
 
   return (
@@ -57,7 +85,7 @@ function QuestionnaireForm() {
       >
         <div className="layout-container flex h-full grow flex-col">
           <div className="px-40 flex flex-1 justify-center py-5">
-            <div className="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
+            <div className="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 flex-1">
               <div className="flex flex-wrap justify-between gap-3 p-4">
                 <p className="text-[#111418] dark:text-white tracking-light text-[32px] font-bold leading-tight min-w-72">
                   Create/Edit a Questionnaire
@@ -125,6 +153,21 @@ function QuestionnaireForm() {
                   </button>
                 </div>
               </div>
+            {
+              errorMessage && (
+                <div className="text-red-500 text-sm font-normal leading-normal">
+                  {errorMessage}
+                </div>
+              )
+            }
+
+            {
+              successMessage && (
+                <div className="text-green-500 text-sm font-normal leading-normal">
+                  Questionnaire created. Click here to view: <a href={successMessage}>{successMessage}</a>
+                </div>
+              )
+            }
             </div>
           </div>
         </div>
