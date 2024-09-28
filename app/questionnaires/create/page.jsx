@@ -1,10 +1,9 @@
 "use client"
 
-import { useState } from "react";
-import NavBar from "../../components/NavBar";
+import { useEffect, useState } from "react";
 import QuestionForm from "./QuestionForm";
 
-function QuestionnaireForm() {
+function QuestionnaireForm({ params }) {
   
   const [questionnaire, setQuestionnaire] = useState({
     creator: '',
@@ -19,6 +18,19 @@ function QuestionnaireForm() {
       weight: 0,
     },
   ]);
+
+  // Fetch questionnaire specified using the id from the URL
+  if (params.id !== undefined) {
+    useEffect(() => {
+      fetch(`${apiUrl}/api/questionnaires/${params.id}`)
+      .then(res => res.json())
+      .then(data => {
+        setQuestionnaire(data.questionnaire);
+        setQuestions(data.questions)
+      });
+    }, []);
+  }
+
   const apiUrl = 'http://localhost:3000';
   const appUrl = 'http://localhost:3001';
   const [errorMessage, setErrorMessage] = useState('');
@@ -45,9 +57,15 @@ function QuestionnaireForm() {
   }
 
   async function createQuestionnaire() {
+    // Clear success or error messages
+    setErrorMessage('');
+    setSuccessMessage('');
+
+    // Add id as a parameter in the url if it exists
+    const id = params.id !== undefined ? `/${params.id}` : '';
     try {
-      const response = await fetch(`${apiUrl}/api/questionnaires`, {
-        method: 'POST',
+      const response = await fetch(`${apiUrl}/api/questionnaires${id}`, {
+        method: params.id !== undefined ? 'PUT' : 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -64,7 +82,12 @@ function QuestionnaireForm() {
           })
         }),
       }).then((res) => res.json());
-      setSuccessMessage(`${appUrl}/questionnaires/${response.questionnaire._id}`);
+
+      if (response.result === 1) {
+        setSuccessMessage(`${appUrl}/questionnaires/${params.id}/submit`);
+      } else {
+        setSuccessMessage(`${appUrl}/questionnaires/${response.questionnaire._id}/submit`);
+      }
       console.log('Questionnaire created: ', response);
     } catch (error) {
       setErrorMessage('Questionnaire creation error: ' + error);
@@ -74,8 +97,6 @@ function QuestionnaireForm() {
 
   return (
     <>
-      <NavBar />
-
       <div
         className="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden"
         style={{
