@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import NavBar from "./components/NavBar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,7 +28,11 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" type="image/svg+xml" href="/insightly.svg" />
-        <link rel="preconnect" href="https://fonts.gstatic.com/" crossOrigin="" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com/"
+          crossOrigin=""
+        />
         <link
           rel="stylesheet"
           as="style"
@@ -37,7 +42,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <div
+          className="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden"
+          style={{ fontFamily: "Work Sans, Noto Sans, sans-serif" }}
+        >
+          <div className="layout-container flex h-full grow flex-col">
+            <NavBar />
+            {children}
+          </div>
+        </div>
       </body>
     </html>
   );
