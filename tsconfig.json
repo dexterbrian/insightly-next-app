@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/questionnaires/create/page.tsx", "app/questionnaires/create/QuestionForm.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/questionnaires/[id]/edit/page.tsx", "app/questionnaires/[id]/edit/QuestionForm.jsx"],
   "exclude": ["node_modules"]
 }
