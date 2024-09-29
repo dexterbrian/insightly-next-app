@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import QuestionForm from "./QuestionForm";
 
-export const apiUrl = process.env.APP_ENV === 'development' ? 'http://localhost:3000' : 'https://insightly.onrender.com';
-export const appUrl = process.env.APP_ENV === 'development' ? 'http://localhost:3001' : 'https://insightly.onrender.com';
+export const apiUrl = 'http://localhost:3000';
+export const appUrl = 'http://localhost:3001';
 
 function QuestionnaireForm({ params }) {
   
