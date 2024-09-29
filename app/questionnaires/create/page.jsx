@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 import QuestionForm from "./QuestionForm";
 
+export const apiUrl = 'http://localhost:3000';
+export const appUrl = 'http://localhost:3001';
+
 function QuestionnaireForm({ params }) {
   
   const [questionnaire, setQuestionnaire] = useState({
@@ -31,8 +34,6 @@ function QuestionnaireForm({ params }) {
     }, []);
   }
 
-  const apiUrl = 'http://localhost:3000';
-  const appUrl = 'http://localhost:3001';
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
