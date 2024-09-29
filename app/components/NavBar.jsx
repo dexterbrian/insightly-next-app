@@ -23,8 +23,7 @@ export default function NavBar() {
                 </div>
                 <div className="flex flex-1 justify-end gap-8">
                 <div className="flex items-center gap-9">
-                    <a className="text-[#111418] dark:text-white text-sm font-medium leading-normal" href="#">Features</a>
-                    <a className="text-[#111418] dark:text-white text-sm font-medium leading-normal" href="#">Pricing</a>
+                    <a className="text-[#111418] dark:text-white text-sm font-medium leading-normal" href="#how-it-works">Features</a>
                 </div>
                 <button
                     className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#1980e6] text-white text-sm font-bold leading-normal tracking-[0.015em]"
